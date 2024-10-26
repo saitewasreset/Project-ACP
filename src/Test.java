@@ -25,5 +25,7 @@ public class Test {
             }
 
         }
+
+        input.close();
     }
 }
