@@ -36,4 +36,18 @@ public class Context implements Observer {
             }
         }
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other instanceof Context context) {
+            return this.currentUser.equals(context.currentUser) && this.server.equals(context.server);
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) ((long) currentUser.hashCode() * (long) server.hashCode());
+    }
 }

@@ -44,6 +44,7 @@ class LoginCommandTest {
     class WithSingleUser {
         @BeforeEach
         void prepareUser() {
+            Command.parse(context, "register 23371001 Engineer AAA111@@@ AAA111@@@ Administrator").execute();
             Command.parse(context, "register 23371058 saitewasreset AAA111@@@ AAA111@@@ Administrator").execute();
         }
 
@@ -65,6 +66,16 @@ class LoginCommandTest {
             WrongPasswordException e = assertThrowsExactly(WrongPasswordException.class, () -> Command.parse(context, "login 23371058 AAA111@@").execute());
 
             assertEquals(e.toString(), "Wrong password");
+        }
+
+        @Test
+        void multipleLogin() {
+            Command.parse(context, "login 23371001 AAA111@@@").execute();
+            Command.parse(context, "login 23371058 AAA111@@@").execute();
+
+            // Should only exist one Context in Server.observerList
+            assertEquals(1, context.getServer().getObserverSet().size());
+
         }
 
         @Test

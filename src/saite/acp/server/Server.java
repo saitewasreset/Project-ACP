@@ -6,8 +6,8 @@ import saite.acp.user.User;
 import saite.acp.user.UserID;
 import saite.acp.util.Observer;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 
 public class Server {
@@ -19,14 +19,14 @@ public class Server {
     private int nextCourseID;
     private HashMap<Integer, Course> courses;
 
-    private ArrayList<Observer> observerList;
+    private HashSet<Observer> observerSet;
 
     public Server() {
         this.loggedUsers = new LinkedHashMap<UserID, User>();
         this.users = new HashMap<UserID, User>();
         this.nextCourseID = 1;
         this.courses = new HashMap<Integer, Course>();
-        this.observerList = new ArrayList<>();
+        this.observerSet = new HashSet<>();
     }
 
     public HashMap<UserID, User> getUsers() {
@@ -51,7 +51,7 @@ public class Server {
         }
 
 
-        observerList.removeIf((item) -> {
+        observerSet.removeIf((item) -> {
             if (item instanceof Context context) {
                 if (context.getCurrentUser().getUserID() == userID) {
                     context.update();
@@ -78,11 +78,25 @@ public class Server {
     }
 
     public void addObserver(Observer o) {
-        this.observerList.add(o);
+        boolean alreadyExist = false;
+        for (Observer observer : this.observerSet) {
+            if (observer instanceof Context context) {
+                if (o instanceof Context toAddContext) {
+                    if (context == toAddContext) {
+                        alreadyExist = true;
+                    }
+                }
+
+            }
+        }
+
+        if (!alreadyExist) {
+            this.observerSet.add(o);
+        }
     }
 
     public void removeObserver(Observer o) {
-        this.observerList.remove(o);
+        this.observerSet.remove(o);
     }
 
     public int addCourse(Course course) throws CommandException {
@@ -106,5 +120,9 @@ public class Server {
 
     public HashMap<Integer, Course> getCourses() {
         return courses;
+    }
+
+    public HashSet<Observer> getObserverSet() {
+        return observerSet;
     }
 }

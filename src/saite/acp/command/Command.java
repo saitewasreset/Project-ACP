@@ -98,6 +98,13 @@ public abstract class Command {
                     yield new CancelCourseCommand(context, args[1]);
                 }
             }
+            case "switch" -> {
+                if (args.length != 2) {
+                    throw new IllegalArgumentCountException();
+                } else {
+                    yield new SwitchCommand(context, args[1]);
+                }
+            }
             default -> throw new CommandNotFoundException(commandName);
         };
     }
