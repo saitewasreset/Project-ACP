@@ -3,8 +3,12 @@ package saite.acp.command;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import saite.acp.course.Course;
 import saite.acp.server.Context;
 import saite.acp.server.Server;
+import saite.acp.user.Student;
+
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -74,6 +78,36 @@ class SelectCourseCommandTest {
                 Command.parse(teacher1Context, "createCourse Deep_Rock_Galactic_9 2_11-12 5.0 64").execute();
             }
 
+            @Test
+            void courseCapacity() {
+                Course targetCourse = server.getCourses().get(1);
+
+                int courseCapacity = targetCourse.getCapacity();
+
+                for (int i = 0; i < courseCapacity + 1; i++) {
+                    int studentID = 23371020 + i;
+                    String studentName = String.format("Scout", i);
+                    Command.parse(context, String.format("register %d %s AAA111@@@ AAA111@@@ Student", studentID, studentName)).execute();
+                }
+
+                ArrayList<Context> studentContextList = new ArrayList<>();
+
+                for (int i = 0; i < courseCapacity + 1; i++) {
+                    Context currentContext = server.getContext();
+
+                    Command.parse(currentContext, String.format("login %d AAA111@@@", 23371020 + i)).execute();
+
+                    studentContextList.add(currentContext);
+                }
+
+                for (int i = 0; i < courseCapacity; i++) {
+                    Command.parse(studentContextList.get(i), "selectCourse C-1").execute();
+                }
+
+                CommandException e = assertThrowsExactly(CommandException.class, () -> Command.parse(studentContextList.get(courseCapacity), "selectCourse C-1").execute());
+                assertEquals("Course capacity is full", e.toString());
+            }
+
             @Nested
             class WithStudent {
                 @BeforeEach
@@ -102,6 +136,10 @@ class SelectCourseCommandTest {
                 @Test
                 void simpleSuccess() {
                     Command.parse(context, "selectCourse C-10").execute();
+                    Command.parse(context, "selectCourse C-9").execute();
+
+                    Student currentStudent = (Student) context.getCurrentUser();
+                    assertEquals(2, currentStudent.getCourses().size());
                 }
 
                 @Test

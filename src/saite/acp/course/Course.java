@@ -99,4 +99,8 @@ public class Course {
     public int getSelectedCount() {
         return this.selectedUserSet.size();
     }
+
+    public int getCapacity() {
+        return capacity;
+    }
 }

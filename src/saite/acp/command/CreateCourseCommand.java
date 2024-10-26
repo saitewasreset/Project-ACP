@@ -1,5 +1,6 @@
 package saite.acp.command;
 
+import saite.acp.GlobalConfig;
 import saite.acp.course.Course;
 import saite.acp.course.CourseTime;
 import saite.acp.server.Context;
@@ -107,7 +108,7 @@ public class CreateCourseCommand extends Command {
             throw new IllegalArgumentContentException("course period");
         }
 
-        Course newCourse = new Course(this.courseName, courseTime, courseCredit, classHour, Integer.MAX_VALUE, teacher);
+        Course newCourse = new Course(this.courseName, courseTime, courseCredit, classHour, GlobalConfig.DEFAULT_COURSE_CAPACITY, teacher);
         int courseID = this.getContext().getServer().addCourse(newCourse);
 
         teacher.getCourses().put(this.courseName, newCourse);

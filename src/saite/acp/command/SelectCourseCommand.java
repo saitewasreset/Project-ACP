@@ -73,8 +73,7 @@ public class SelectCourseCommand extends Command {
         if (targetCourse.selectCourse(student)) {
             studentCourses.put(targetCourse.getCourseName(), targetCourse);
         } else {
-            // TODO: capacity exception
-            throw new CommandException("");
+            throw new CommandException("Course capacity is full");
         }
 
 
