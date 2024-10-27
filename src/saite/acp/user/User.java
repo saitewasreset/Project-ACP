@@ -1,6 +1,8 @@
 package saite.acp.user;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
     private UserID id;
     private String name;
     private byte[] passwordDigestWithSalt;

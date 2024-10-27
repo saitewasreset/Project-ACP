@@ -4,10 +4,11 @@ import saite.acp.command.CommandException;
 import saite.acp.command.IllegalArgumentContentException;
 import saite.acp.util.Range;
 
+import java.io.Serializable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class CourseTime {
+public class CourseTime implements Serializable {
     private int day;
     private int begin;
     private int end;
@@ -70,5 +71,19 @@ public class CourseTime {
     @Override
     public String toString() {
         return String.format("%d_%d-%d", this.day, this.begin, this.end);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof CourseTime other) {
+            return (other.begin == this.begin) && (other.end == this.end) && (other.day == this.day);
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) ((((long) this.day) << 48) + (((long) this.end) << 24) + ((long) this.begin));
     }
 }

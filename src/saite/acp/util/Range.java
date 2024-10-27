@@ -1,6 +1,8 @@
 package saite.acp.util;
 
-public class Range<T extends Comparable<T>> {
+import java.io.Serializable;
+
+public class Range<T extends Comparable<T>> implements Serializable {
     private T begin;
     private T end;
     private boolean closed;

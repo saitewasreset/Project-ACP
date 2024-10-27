@@ -49,4 +49,12 @@ class CourseTimeTest {
 
         assertEquals("2_8-9", ct.toString());
     }
+
+    @Test
+    void testEquals() {
+        CourseTime a = new CourseTime("1_1-2");
+        CourseTime b = new CourseTime("1_1-2");
+
+        assertEquals(a, b);
+    }
 }

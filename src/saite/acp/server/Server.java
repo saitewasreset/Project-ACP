@@ -1,7 +1,9 @@
 package saite.acp.server;
 
+import saite.acp.GlobalConfig;
 import saite.acp.command.CommandException;
 import saite.acp.course.Course;
+import saite.acp.user.Teacher;
 import saite.acp.user.User;
 import saite.acp.user.UserID;
 import saite.acp.util.Observer;
@@ -105,6 +107,29 @@ public class Server {
         this.nextCourseID++;
 
         return course.getId();
+    }
+
+    public int tryAddCourse(Course course) throws CommandException {
+        Teacher teacher = course.getTeacher();
+
+        if (teacher.getCourses().size() >= GlobalConfig.TEACHER_COURSE_COUNT_LIMIT) {
+            throw new CommandException("Course count reaches limit");
+        }
+
+        if (teacher.getCourses().containsKey(course.getCourseName())) {
+            // In CreateCourseCommand, message is "Course name exists" (according to specification)
+            throw new CommandException("Course name already exists");
+        }
+
+        for (var courseInfo : teacher.getCourses().values()) {
+            if (course.getCourseTime().checkConflict(courseInfo.getCourseTime())) {
+                throw new CommandException("Course time conflicts");
+            }
+        }
+
+        teacher.getCourses().put(course.getCourseName(), course);
+
+        return addCourse(course);
     }
 
     public void deleteCourse(int courseID) throws CommandException {

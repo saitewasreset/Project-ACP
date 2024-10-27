@@ -4,7 +4,9 @@ import saite.acp.command.CommandException;
 import saite.acp.command.IllegalArgumentContentException;
 import saite.acp.util.Range;
 
-public class UserID {
+import java.io.Serializable;
+
+public class UserID implements Serializable {
     private final String rawID;
 
     private static final Range<Integer> undergraduateYearRange = new Range<Integer>(19, 24);
