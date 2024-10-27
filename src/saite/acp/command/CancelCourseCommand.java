@@ -28,23 +28,7 @@ public class CancelCourseCommand extends Command {
             throw new NoContextUserException();
         }
 
-        Matcher courseIDMatcher = courseIDPattern.matcher(rawCourseID);
-
-        if (!courseIDMatcher.find()) {
-            throw new IllegalArgumentContentException("course id");
-        }
-
-        int courseID;
-
-        try {
-            courseID = Integer.parseInt(courseIDMatcher.group(1));
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentContentException("course id");
-        }
-
-        if (courseID == 0) {
-            throw new IllegalArgumentContentException("course id");
-        }
+        int courseID = Course.parseCourseID(rawCourseID);
 
         HashMap<Integer, Course> globalCourses = getContext().getServer().getCourses();
         Course targetCourse = globalCourses.get(courseID);

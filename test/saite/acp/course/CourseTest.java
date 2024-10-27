@@ -1,6 +1,9 @@
 package saite.acp.course;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+import saite.acp.command.IllegalArgumentContentException;
 import saite.acp.user.Teacher;
 import saite.acp.user.UserID;
 import saite.acp.user.UserRole;
@@ -22,6 +25,21 @@ class CourseTest {
         assertEquals(studentExpected, c.roleView(UserRole.Student));
         assertEquals(studentExpected, c.roleView(UserRole.Administrator));
         assertEquals(teacherExpected, c.roleView(UserRole.Teacher));
+
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"C-1A", "C-0", "C-01", "C-02", "C-1-2"})
+    void invalidCourseID(String rawCourseID) {
+        IllegalArgumentContentException e = assertThrowsExactly(IllegalArgumentContentException.class, () -> Course.parseCourseID(rawCourseID));
+
+        assertEquals("Illegal course id", e.toString());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"C-1", "C-2", "C-13", "C-10", "C-100"})
+    void validCourseID(String rawCourseID) {
+        Course.parseCourseID(rawCourseID);
 
     }
 }

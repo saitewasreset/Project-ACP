@@ -1,5 +1,7 @@
 package saite.acp.course;
 
+import saite.acp.command.CommandException;
+import saite.acp.command.IllegalArgumentContentException;
 import saite.acp.user.Student;
 import saite.acp.user.Teacher;
 import saite.acp.user.User;
@@ -8,6 +10,7 @@ import saite.acp.user.UserRole;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.regex.*;
 
 public class Course implements Serializable {
     transient private int id;
@@ -22,6 +25,18 @@ public class Course implements Serializable {
     transient private Teacher teacher;
 
     transient private HashSet<User> selectedUserSet;
+
+    transient private static final Pattern courseIDPattern = Pattern.compile("^C-([1-9][0-9]*)$");
+
+    public static int parseCourseID(String rawCourseID) throws CommandException {
+        Matcher m = courseIDPattern.matcher(rawCourseID);
+
+        if (!m.find()) {
+            throw new IllegalArgumentContentException("course id");
+        }
+
+        return Integer.parseInt(m.group(1));
+    }
 
     public Course(String courseName, CourseTime courseTime, double courseCredit, int courseClassHour, int capacity,
                   Teacher teacher) {

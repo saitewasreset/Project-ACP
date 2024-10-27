@@ -34,27 +34,11 @@ public class SelectCourseCommand extends Command {
             throw new PermissionDeniedException();
         }
 
-        Matcher courseIDMatcher = courseIDPattern.matcher(rawCourseID);
-
-        if (!courseIDMatcher.find()) {
-            throw new IllegalArgumentContentException("course id");
-        }
-
-        int courseID;
-
-        try {
-            courseID = Integer.parseInt(courseIDMatcher.group(1));
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentContentException("course id");
-        }
+        int courseID = Course.parseCourseID(rawCourseID);
 
         HashMap<Integer, Course> courses = getContext().getServer().getCourses();
 
         Course targetCourse = courses.get(courseID);
-
-        if (courseID == 0) {
-            throw new IllegalArgumentContentException("course id");
-        }
 
         if (targetCourse == null) {
             throw new CommandException("Course does not exist");

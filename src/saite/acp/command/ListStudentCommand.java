@@ -35,17 +35,7 @@ public class ListStudentCommand extends Command {
 
         Matcher result = courseIDPattern.matcher(rawCourseID);
 
-        int courseID;
-
-        if (!result.find()) {
-            throw new IllegalArgumentContentException("course id");
-        } else {
-            courseID = Integer.parseInt(result.group(1));
-        }
-
-        if (courseID == 0) {
-            throw new IllegalArgumentContentException("course id");
-        }
+        int courseID = Course.parseCourseID(rawCourseID);
 
         Optional<Course> targetCourse = switch (currentUser.getUserRole()) {
             case Teacher -> {

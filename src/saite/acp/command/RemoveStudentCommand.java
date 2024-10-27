@@ -59,13 +59,7 @@ public class RemoveStudentCommand extends Command {
             };
             toRemoveFromCourseList.addAll(scopeCourseList.stream().filter((course -> course.getSelectedUserSet().contains(targetUser))).toList());
         } else {
-            int courseID;
-            Matcher result = courseIDPattern.matcher(rawCourseID);
-            if (!result.find()) {
-                throw new IllegalArgumentContentException("course id");
-            } else {
-                courseID = Integer.parseInt(result.group(1));
-            }
+            int courseID = Course.parseCourseID(rawCourseID);
 
             Optional<Course> targetCourseOptional = switch (currentUser.getUserRole()) {
                 case Teacher -> {
