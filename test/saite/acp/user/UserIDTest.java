@@ -6,6 +6,9 @@ import org.junit.jupiter.params.provider.ValueSource;
 import saite.acp.command.IllegalArgumentContentException;
 import saite.acp.command.IllegalArgumentCountException;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserIDTest {
@@ -127,5 +130,29 @@ class UserIDTest {
         UserID u2 = new UserID(rawUserIDList[1]);
 
         assertNotEquals(u1, u2);
+    }
+
+    @Test
+    void testStudentType() {
+        assertEquals(StudentType.NotAStudent, new UserID("AD001").getStudentType());
+        assertEquals(StudentType.NotAStudent, new UserID("12345").getStudentType());
+        assertEquals(StudentType.Undergraduate, new UserID("23371001").getStudentType());
+        assertEquals(StudentType.MasterZY, new UserID("ZY2221118").getStudentType());
+        assertEquals(StudentType.MasterSY, new UserID("SY2221118").getStudentType());
+        assertEquals(StudentType.Doctoral, new UserID("BY2221118").getStudentType());
+    }
+
+    @Test
+    void testStudentComparator() {
+        String[] testUserIDList = {"BY2221119", "BY2221118", "SY2221119", "SY2221118", "ZY2221119", "ZY2221118",
+                "23371002", "23371001"};
+        String[] expectedUserIDList = {"23371001", "23371002", "ZY2221118", "ZY2221119", "SY2221118", "SY2221119",
+                "BY2221118", "BY2221119"};
+
+        ArrayList<UserID> userIDArrayList = Arrays.stream(testUserIDList).map(UserID::new).collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+
+        Object[] actualUserIDList = userIDArrayList.stream().sorted(UserID.studentComparator()).map(UserID::getRawID).toArray();
+
+        assertArrayEquals(expectedUserIDList, actualUserIDList);
     }
 }

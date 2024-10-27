@@ -5,9 +5,11 @@ import saite.acp.command.IllegalArgumentContentException;
 import saite.acp.util.Range;
 
 import java.io.Serializable;
+import java.util.Comparator;
 
 public class UserID implements Serializable {
     private final String rawID;
+    private final StudentType studentType;
 
     private static final Range<Integer> undergraduateYearRange = new Range<Integer>(19, 24);
     private static final Range<Integer> undergraduateSchoolIDRange = new Range<Integer>(1, 43);
@@ -28,6 +30,10 @@ public class UserID implements Serializable {
 
     private static final String administratorPrefix = "AD";
 
+    public static final Comparator<UserID> studentComparator() {
+        return Comparator.comparing(UserID::getStudentType).thenComparing(UserID::getRawID);
+    }
+
     public UserID(String rawID) throws CommandException {
         // check
         this.rawID = rawID;
@@ -45,6 +51,8 @@ public class UserID implements Serializable {
                         && undergraduateRecordIDRange.checkValue(recordID))) {
                     throw new IllegalArgumentContentException("user id");
                 }
+
+                this.studentType = StudentType.Undergraduate;
             } catch (NumberFormatException e) {
                 throw new IllegalArgumentContentException("user id");
             }
@@ -61,6 +69,11 @@ public class UserID implements Serializable {
                         if (masterYearRange.checkValue(year) && masterSchoolIDRange.checkValue(schoolID)
                                 && masterClassIDRange.checkValue(classID)
                                 && masterRecordIDRange.checkValue(recordID)) {
+                            if (type.equals("SY")) {
+                                this.studentType = StudentType.MasterSY;
+                            } else {
+                                this.studentType = StudentType.MasterZY;
+                            }
                             return;
                         } else {
                             throw new IllegalArgumentContentException("user id");
@@ -73,6 +86,7 @@ public class UserID implements Serializable {
                         if (doctoralYearRange.checkValue(year) && doctoralSchoolIDRange.checkValue(schoolID)
                                 && doctoralClassIDRange.checkValue(classID)
                                 && doctoralRecordIDRange.checkValue(recordID)) {
+                            this.studentType = StudentType.Doctoral;
                             return;
                         } else {
                             throw new IllegalArgumentContentException("user id");
@@ -85,6 +99,7 @@ public class UserID implements Serializable {
 
             throw new IllegalArgumentContentException("user id");
         } else if (rawID.length() == 5) {
+            this.studentType = StudentType.NotAStudent;
             String prefix = rawID.substring(0, 2);
 
             if (prefix.equals(administratorPrefix)) {
@@ -126,6 +141,11 @@ public class UserID implements Serializable {
         return rawID;
     }
 
+    public StudentType getStudentType() {
+        return this.studentType;
+    }
+
+
     @Override
     public String toString() {
         return this.rawID;
@@ -150,4 +170,5 @@ public class UserID implements Serializable {
     public int hashCode() {
         return this.rawID.hashCode();
     }
+
 }
