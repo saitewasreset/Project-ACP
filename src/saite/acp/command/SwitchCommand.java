@@ -31,6 +31,6 @@ public class SwitchCommand extends Command {
 
         getContext().setCurrentUser(targetUser);
 
-        System.out.printf("switch to %s\n", this.userID);
+        System.out.printf("Switch to %s\n", this.userID);
     }
 }
