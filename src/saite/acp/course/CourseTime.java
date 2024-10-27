@@ -5,6 +5,7 @@ import saite.acp.command.IllegalArgumentContentException;
 import saite.acp.util.Range;
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,6 +18,8 @@ public class CourseTime implements Serializable {
 
     private static final Range<Integer> dayRange = new Range<Integer>(1, 7);
     private static final Range<Integer> classTimeRange = new Range<Integer>(1, 14);
+
+    public static final Comparator<CourseTime> comparator = Comparator.comparing(CourseTime::getDay).thenComparing(CourseTime::getBegin).thenComparing(CourseTime::getEnd);
 
     public CourseTime(String rawCourseTime) throws CommandException {
         Matcher m = courseTimePattern.matcher(rawCourseTime);
@@ -86,4 +89,17 @@ public class CourseTime implements Serializable {
     public int hashCode() {
         return (int) ((((long) this.day) << 48) + (((long) this.end) << 24) + ((long) this.begin));
     }
+
+    public int getDay() {
+        return this.day;
+    }
+
+    public int getBegin() {
+        return this.begin;
+    }
+
+    public int getEnd() {
+        return this.end;
+    }
+
 }

@@ -5,6 +5,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import saite.acp.command.IllegalArgumentContentException;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class CourseTimeTest {
@@ -56,5 +60,15 @@ class CourseTimeTest {
         CourseTime b = new CourseTime("1_1-2");
 
         assertEquals(a, b);
+    }
+
+    @Test
+    void testCompare() {
+        String[] rawCourseTimeList = {"5_5-6", "5_1-2", "3_7-8", "3_1-2", "1_1-2", "1_3-4"};
+        String[] expectedCourseTimeList = {"1_1-2", "1_3-4", "3_1-2", "3_7-8", "5_1-2", "5_5-6"};
+
+        Object[] actualCourseTimeList = Arrays.stream(rawCourseTimeList).map(CourseTime::new).sorted(CourseTime.comparator).map(CourseTime::toString).toArray();
+
+        assertArrayEquals(expectedCourseTimeList, actualCourseTimeList);
     }
 }
