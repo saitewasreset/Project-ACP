@@ -1,7 +1,10 @@
+import saite.acp.GlobalConfig;
 import saite.acp.command.Command;
 import saite.acp.command.CommandException;
 import saite.acp.server.Context;
 import saite.acp.server.Server;
+
+import java.io.File;
 
 import java.util.Scanner;
 
@@ -11,6 +14,8 @@ public class Test {
         Context context = server.getContext();
 
         Scanner input = new Scanner(System.in);
+
+        boolean _ = GlobalConfig.DATA_DIRECTORY.mkdir();
 
         while (input.hasNextLine()) {
             String line = input.nextLine().trim();

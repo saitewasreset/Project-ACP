@@ -5,11 +5,12 @@ import saite.acp.user.Teacher;
 import saite.acp.user.User;
 import saite.acp.user.UserRole;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class Course {
-    private int id;
+public class Course implements Serializable {
+    transient private int id;
     private boolean valid;
     private String courseName;
     private CourseTime courseTime;
@@ -18,9 +19,9 @@ public class Course {
 
     private int capacity;
 
-    private Teacher teacher;
+    transient private Teacher teacher;
 
-    private HashSet<User> selectedUserSet;
+    transient private HashSet<User> selectedUserSet;
 
     public Course(String courseName, CourseTime courseTime, double courseCredit, int courseClassHour, int capacity,
                   Teacher teacher) {
@@ -57,6 +58,10 @@ public class Course {
 
     public Teacher getTeacher() {
         return teacher;
+    }
+
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
     }
 
     public String roleView(UserRole role) {
@@ -102,5 +107,25 @@ public class Course {
 
     public int getCapacity() {
         return capacity;
+    }
+
+    public void clearSelected() {
+        if (this.selectedUserSet == null) {
+            this.selectedUserSet = new HashSet<>();
+        } else {
+            this.selectedUserSet.clear();
+        }
+    }
+
+    public double getCourseCredit() {
+        return this.courseCredit;
+    }
+
+    public int getCourseClassHour() {
+        return this.courseClassHour;
+    }
+
+    public HashSet<User> getSelectedUserSet() {
+        return this.selectedUserSet;
     }
 }

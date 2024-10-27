@@ -105,6 +105,20 @@ public abstract class Command {
                     yield new SwitchCommand(context, args[1]);
                 }
             }
+            case "outputCourseBatch" -> {
+                if (args.length != 2) {
+                    throw new IllegalArgumentCountException();
+                } else {
+                    yield new OutputCourseBatchCommand(context, args[1]);
+                }
+            }
+            case "inputCourseBatch" -> {
+                if (args.length != 2) {
+                    throw new IllegalArgumentCountException();
+                } else {
+                    yield new InputCourseBatchCommand(context, args[1]);
+                }
+            }
             default -> throw new CommandNotFoundException(commandName);
         };
     }
