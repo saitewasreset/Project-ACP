@@ -119,6 +119,13 @@ public abstract class Command {
                     yield new InputCourseBatchCommand(context, args[1]);
                 }
             }
+            case "listStudent" -> {
+                if (args.length != 2) {
+                    throw new IllegalArgumentCountException();
+                } else {
+                    yield new ListStudentCommand(context, args[1]);
+                }
+            }
             default -> throw new CommandNotFoundException(commandName);
         };
     }
