@@ -15,7 +15,7 @@ public class Test {
 
         Scanner input = new Scanner(System.in);
 
-        boolean _ = GlobalConfig.DATA_DIRECTORY.mkdir();
+        boolean ignored = GlobalConfig.DATA_DIRECTORY.mkdir();
 
         while (input.hasNextLine()) {
             String line = input.nextLine().trim();
