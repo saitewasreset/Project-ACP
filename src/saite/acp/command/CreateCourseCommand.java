@@ -40,7 +40,7 @@ public class CreateCourseCommand extends Command {
         Teacher teacher = (Teacher) currentUser;
         HashMap<String, Course> teacherCourses = teacher.getCourses();
 
-        if (teacherCourses.size() >= 10) {
+        if (teacherCourses.size() >= GlobalConfig.TEACHER_COURSE_COUNT_LIMIT) {
             throw new CommandException("Course count reaches limit");
         }
 
