@@ -95,7 +95,7 @@ public class RemoveStudentCommand extends Command {
             course.getSelectedUserSet().remove(targetUser);
             Student targetStudent = (Student) targetUser;
 
-            targetStudent.getCourses().remove(course.getCourseName());
+            targetStudent.getCourses().remove(course.getId());
         }
 
         System.out.println("Remove student success");

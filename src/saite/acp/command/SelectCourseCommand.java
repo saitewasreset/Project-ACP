@@ -62,7 +62,7 @@ public class SelectCourseCommand extends Command {
 
         Student student = (Student) currentUser;
 
-        HashMap<String, Course> studentCourses = student.getCourses();
+        HashMap<Integer, Course> studentCourses = student.getCourses();
 
         for (Course currentCourse : studentCourses.values()) {
             if (currentCourse.getCourseTime().checkConflict(targetCourse.getCourseTime())) {
@@ -71,7 +71,7 @@ public class SelectCourseCommand extends Command {
         }
 
         if (targetCourse.selectCourse(student)) {
-            studentCourses.put(targetCourse.getCourseName(), targetCourse);
+            studentCourses.put(targetCourse.getId(), targetCourse);
         } else {
             throw new CommandException("Course capacity is full");
         }

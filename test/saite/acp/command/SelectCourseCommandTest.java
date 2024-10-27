@@ -76,6 +76,7 @@ class SelectCourseCommandTest {
                 Command.parse(teacher1Context, "createCourse Deep_Rock_Galactic_7 2_3-4 5.0 64").execute();
                 Command.parse(teacher1Context, "createCourse Deep_Rock_Galactic_8 2_5-6 5.0 64").execute();
                 Command.parse(teacher1Context, "createCourse Deep_Rock_Galactic_9 2_11-12 5.0 64").execute();
+                Command.parse(teacher2Context, "createCourse Deep_Rock_Galactic_0 5_11-12 5.0 64").execute();
             }
 
             @Test
@@ -147,6 +148,16 @@ class SelectCourseCommandTest {
                     Command.parse(context, "selectCourse C-6").execute();
                     CommandException e = assertThrowsExactly(CommandException.class, () -> Command.parse(context, "selectCourse C-11").execute());
                     assertEquals("Course time conflicts", e.toString());
+                }
+
+                @Test
+                void sameNameDifferentTeacher() {
+                    Command.parse(context, "selectCourse C-1").execute();
+                    Command.parse(context, "selectCourse C-12").execute();
+
+                    Student currentStudent = (Student) context.getCurrentUser();
+
+                    assertEquals(2, currentStudent.getCourses().size());
                 }
 
                 @Nested

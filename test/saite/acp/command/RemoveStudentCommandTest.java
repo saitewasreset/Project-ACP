@@ -150,23 +150,23 @@ class RemoveStudentCommandTest {
                     @Test
                     void simpleSuccessOne() {
                         Student targetStudent = (Student) server.getUsers().get(new UserID("23161001"));
-                        assertTrue(targetStudent.getCourses().containsKey("Deep_Rock_Galactic_0"));
+                        assertTrue(targetStudent.getCourses().containsKey(1));
                         Course targetCourse = server.getCourses().get(1);
 
                         assertTrue(targetCourse.getSelectedUserSet().contains(targetStudent));
 
                         Command.parse(teacher0Context, "removeStudent 23161001").execute();
 
-                        assertFalse(targetStudent.getCourses().containsKey("Deep_Rock_Galactic_0"));
+                        assertFalse(targetStudent.getCourses().containsKey(1));
                         assertFalse(targetCourse.getSelectedUserSet().contains(targetStudent));
-                        assertFalse(targetStudent.getCourses().containsKey("Deep_Rock_Galactic_1"));
+                        assertFalse(targetStudent.getCourses().containsKey(2));
 
                     }
 
                     @Test
                     void simpleSuccessTwo() {
                         Student targetStudent = (Student) server.getUsers().get(new UserID("23161001"));
-                        assertTrue(targetStudent.getCourses().containsKey("Deep_Rock_Galactic_0"));
+                        assertTrue(targetStudent.getCourses().containsKey(1));
                         Course targetCourse = server.getCourses().get(1);
                         Course stillSelectedCourse = server.getCourses().get(2);
 
@@ -175,9 +175,9 @@ class RemoveStudentCommandTest {
 
                         Command.parse(teacher0Context, "removeStudent 23161001 C-1").execute();
 
-                        assertFalse(targetStudent.getCourses().containsKey("Deep_Rock_Galactic_0"));
+                        assertFalse(targetStudent.getCourses().containsKey(1));
                         assertFalse(targetCourse.getSelectedUserSet().contains(targetStudent));
-                        assertTrue(targetStudent.getCourses().containsKey("Deep_Rock_Galactic_1"));
+                        assertTrue(targetStudent.getCourses().containsKey(2));
                         assertTrue(stillSelectedCourse.getSelectedUserSet().contains(targetStudent));
                     }
 

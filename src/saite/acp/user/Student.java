@@ -6,15 +6,15 @@ import java.util.HashMap;
 
 public class Student extends User {
     // CourseName -> Course
-    private HashMap<String, Course> courses;
+    private HashMap<Integer, Course> courses;
 
     public Student(UserID id, String name, byte[] passwordDigestWithSalt, byte[] salt) {
         super(id, name, passwordDigestWithSalt, salt, UserRole.Student);
 
-        this.courses = new HashMap<String, Course>();
+        this.courses = new HashMap<Integer, Course>();
     }
 
-    public HashMap<String, Course> getCourses() {
+    public HashMap<Integer, Course> getCourses() {
         return courses;
     }
 }

@@ -59,9 +59,9 @@ public class CancelCourseCommand extends Command {
             case Student -> {
                 Student student = (Student) currentUser;
 
-                HashMap<String, Course> studentCourses = student.getCourses();
+                HashMap<Integer, Course> studentCourses = student.getCourses();
 
-                Course removed = studentCourses.remove(targetCourseName);
+                Course removed = studentCourses.remove(targetCourse.getId());
 
                 if (removed == null) {
                     throw new CommandException("Course does not exist");

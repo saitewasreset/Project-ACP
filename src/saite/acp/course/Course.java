@@ -94,9 +94,9 @@ public class Course implements Serializable {
     private void cancelAllSelected() {
         for (User selectedUser : this.selectedUserSet) {
             if (selectedUser instanceof Student student) {
-                HashMap<String, Course> studentCourses = student.getCourses();
+                HashMap<Integer, Course> studentCourses = student.getCourses();
 
-                studentCourses.remove(this.getCourseName());
+                studentCourses.remove(this.getId());
             }
         }
     }
