@@ -135,6 +135,15 @@ public abstract class Command {
                     yield new RemoveStudentCommand(context, args[1], null);
                 }
             }
+            case "listCourseSchedule" -> {
+                if (args.length > 2) {
+                    throw new IllegalArgumentCountException();
+                } else if (args.length == 1) {
+                    yield new ListCourseScheduleCommand(context, null);
+                } else {
+                    yield new ListCourseScheduleCommand(context, args[1]);
+                }
+            }
             default -> throw new CommandNotFoundException(commandName);
         };
     }

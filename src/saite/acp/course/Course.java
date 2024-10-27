@@ -73,6 +73,11 @@ public class Course implements Serializable {
         };
     }
 
+    public String scheduleView() {
+        return String.format("%s %s %.1f %d %s", this.courseTime, this.courseName, this.courseCredit,
+                this.courseClassHour, this.teacher.getName());
+    }
+
     public boolean selectCourse(User user) {
         if (this.selectedUserSet.size() >= this.capacity) {
             return false;
