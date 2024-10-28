@@ -62,6 +62,11 @@ class PrintInfoCommandTest {
                 assertEquals("Permission denied", e.toString());
 
             }
+
+            @Test
+            void simpleSuccess() {
+                Command.parse(context, "printInfo").execute();
+            }
         }
 
         @Nested
@@ -86,7 +91,12 @@ class PrintInfoCommandTest {
             }
 
             @Test
-            void simpleSuccess() {
+            void simpleSuccessOne() {
+                Command.parse(context, "printInfo").execute();
+            }
+
+            @Test
+            void simpleSuccessTwo() {
                 Command.parse(context, "printInfo 23371001").execute();
             }
 

@@ -189,8 +189,20 @@ class ListCourseCommandTest {
                 }
 
                 @Test
-                void simpleSuccess() {
+                void simpleSuccessOne() {
+                    Command.parse(context, "listCourse").execute();
+                }
+
+                @Test
+                void simpleSuccessTwo() {
                     Command.parse(context, "listCourse 10001").execute();
+                }
+
+                @Test
+                void simpleSuccessStudent() {
+                    Context studentContext = server.getContext();
+                    Command.parse(studentContext, "login 23371001 AAA111@@@").execute();
+                    Command.parse(studentContext, "listCourse").execute();
                 }
             }
         }

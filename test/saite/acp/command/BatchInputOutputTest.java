@@ -110,6 +110,15 @@ public class BatchInputOutputTest {
             }
 
             @Test
+            void invalidPathForInput() {
+                CommandException e = assertThrowsExactly(CommandException.class, () -> Command.parse(teacher0Context, "inputCourseBatch not_found.txt").execute());
+                assertEquals("File does not exist", e.toString());
+
+                e = assertThrowsExactly(CommandException.class, () -> Command.parse(teacher0Context, "inputCourseBatch a_directory").execute());
+                assertEquals("File is a directory", e.toString());
+            }
+
+            @Test
             @SuppressWarnings("unchecked")
             void simpleSuccess() throws IOException, ClassNotFoundException {
                 Teacher targetTeacher = (Teacher) teacher0Context.getCurrentUser();

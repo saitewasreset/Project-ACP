@@ -154,7 +154,7 @@ class CreateCourseCommandTest {
             }
 
             @ParameterizedTest
-            @ValueSource(strings = {"0", "0.0", "12.1"})
+            @ValueSource(strings = {"0", "0.0", "12.1", "ABC", "Rock_And_Stone"})
             void illegalCourseCredit(String credit) {
                 String command = String.format("createCourse Deep_Rock_Galactic_0 1_2-3 %s 64", credit);
 
@@ -182,7 +182,7 @@ class CreateCourseCommandTest {
             }
 
             @ParameterizedTest
-            @ValueSource(strings = {"64.0", "32.5", "0", "0.0", "1280.1", "1281"})
+            @ValueSource(strings = {"64.0", "32.5", "0", "0.0", "1280.1", "1281", "ABC", "Rock_And_Stone"})
             void illegalClassHour(String classHour) {
                 String command = String.format("createCourse Deep_Rock_Galactic_0 1_2-3 5.0 %s", classHour);
 

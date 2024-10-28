@@ -83,7 +83,7 @@ class RegisterCommandTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"A1@", "A1@A1@A1@A1@A1@A1@", "AaAaAaAa", "111111", "@@@@@@", "11AaAa", "11@@@@", "1111AAAa"})
+    @ValueSource(strings = {"A1@", "A1@A1@A1@A1@A1@A1@", "AaAaAaAa", "111111", "@@@@@@", "11AaAa", "11@@@@", "1111AAAa", "111AAA@@@|||", "111AAA@@@{{{"})
     void illegalPassword(String password) {
         String command = String.format("register 23371058 saitewasreset %s %s Administrator", password, password);
 

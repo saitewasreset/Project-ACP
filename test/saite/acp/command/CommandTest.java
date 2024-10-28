@@ -37,4 +37,17 @@ class CommandTest {
         Command result = Command.parse(s.getContext(), "register 23371058        saitewasreset   \t AAA111@@@ AAA111@@@ Administrator");
         assertInstanceOf(RegisterCommand.class, result);
     }
+
+    @Test
+    void quitCommand() {
+        Command result = Command.parse(null, "quit");
+        assertInstanceOf(QuitCommand.class, result);
+    }
+
+    @Test
+    void quitCommandIllegalArgumentCount() {
+        IllegalArgumentCountException e = assertThrowsExactly(IllegalArgumentCountException.class, () -> {
+            Command.parse(null, "quit 23371058");
+        });
+    }
 }

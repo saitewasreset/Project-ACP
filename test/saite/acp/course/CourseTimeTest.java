@@ -60,6 +60,11 @@ class CourseTimeTest {
         CourseTime b = new CourseTime("1_1-2");
 
         assertEquals(a, b);
+
+        CourseTime c = new CourseTime("1_1-2");
+        CourseTime d = new CourseTime("1_2-3");
+
+        assertNotEquals(c, d);
     }
 
     @Test

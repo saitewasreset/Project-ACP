@@ -129,6 +129,8 @@ class ListCourseScheduleCommandTest {
                         Object[] actual = courses.stream().map(Course::scheduleView).toArray();
 
                         assertArrayEquals(expected, actual);
+
+                        c.execute();
                     }
 
                     @Nested
@@ -180,6 +182,8 @@ class ListCourseScheduleCommandTest {
                             Object[] actual = courses.stream().map(Course::scheduleView).toArray();
 
                             assertArrayEquals(expected, actual);
+
+                            c.execute();
                         }
                     }
                 }
